@@ -1,34 +1,34 @@
-import Note from "../models/note"
+import Note from "../models/note.js"
 import { errorHandler } from "../utils/error.js"
 
-export const addNote = async(req,res,next)=>{
+export const addNote = async (req, res, next) => {
 
-    const {title, content , tags} = req.body
+    const { title, content, tags } = req.body
 
-    const {id} = req.user 
-    if(!title){
+    const { id } = req.user
+    if (!title) {
         return next(errorHandler(400, "Title is required"))
     }
-     if(!content){
+    if (!content) {
         return next(errorHandler(400, "content is required"))
     }
-try {
-    
-    const note = new Note({
-        title,
-        content,
-        tags: tags || [],
-        userId: id
-    })
+    try {
 
-    await note.save()
-    res.status(201).json({
-        success: true,
-        message: "Note added successfully",
-        note,
-    })
-} catch (error) {
-    next(error)
-    
-}
+        const note = new Note({
+            title,
+            content,
+            tags: tags || [],
+            userId: id
+        })
+
+        await note.save()
+        res.status(201).json({
+            success: true,
+            message: "Note added successfully",
+            note,
+        })
+    } catch (error) {
+        next(error)
+
+    }
 }
