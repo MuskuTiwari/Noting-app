@@ -5,11 +5,6 @@ import Login from './pages/Login/login';
 import Signup from './pages/Signup/Signup';
 import Navbar from './components/Navbar';
 function App() {
-
-
-
-  
-
   return (
     <>
       <BrowserRouter>
