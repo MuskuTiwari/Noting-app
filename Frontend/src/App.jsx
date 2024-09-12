@@ -4,6 +4,8 @@ import Home from './pages/Home/Home'
 import Login from './pages/Login/login';
 import Signup from './pages/Signup/Signup';
 import Navbar from './components/Navbar';
+ import { ToastContainer } from "react-toastify";
+ import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <>
@@ -14,6 +16,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
+        <ToastContainer position='top-center'/>
       </BrowserRouter>
     </>
   );

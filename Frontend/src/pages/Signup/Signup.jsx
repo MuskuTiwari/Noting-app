@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Passwordinput from "../../components/input/Passwordinput";
 import { validateEmail } from "../../utils/helper";
 import Navbar from '../../components/Navbar';
@@ -13,9 +13,11 @@ const Signup = () =>{
  const [password, setPassword] = useState("");
  const [error, setError] = useState("");
 
+ const navigate = useNavigate()
 
   const handleSignUp = async (e) =>{
-    e.preventDefault()
+   e.preventDefault()
+   
     if(!name){
       setError("please enter your name")
     }
@@ -29,6 +31,26 @@ const Signup = () =>{
       return;
     }
     setError("");
+
+    navigate("/login")
+//sign up api
+
+try {
+  const res = await axios.post("http://localhost:3000/api/auth/signup ",{username: name,email,password},{withCredentials: true});
+if (res.data.success === false){
+  setError(error.message
+)
+return
+}
+  setError("")
+} catch (error) {
+  console.log(error.message)
+  setError(error.message)
+  
+}
+
+
+
   }
 
   return (

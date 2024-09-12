@@ -6,6 +6,7 @@ import AddEditNotes from "./AddEditNotes";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import axios from "axios";
 
 const Home = () => {
   const { currentUser, loading, errorDispatch } = useSelector(
@@ -13,6 +14,7 @@ const Home = () => {
   );
 
   const [userInfo, setUserInfo] = useState(null);
+  const [allNotes, setAllNotes] = useState([]);
   const navigate = useNavigate();
 
   const [openAddEditModal, setOpenAddEditModal] = useState({
@@ -26,83 +28,49 @@ const Home = () => {
       navigate("/login");
     } else {
       setUserInfo(currentUser?.rest);
+      getAllNotes()
     }
-  }, [currentUser]);
+  }, []);
+
+  //get all notes
+
+  const getAllNotes = async()=>{
+    try {
+      const res = await axios.get("http://localhost:3000/api/note/all",{
+withCredentials: true,
+      })
+      if (res.data.success === false){
+        console.log(res.data)
+        return
+      }
+      setAllNotes(res.data.notes)
+    } catch (error) {
+      
+    }
+  } 
+
+
+  const handleEdit = (noteDetails) =>{
+    setOpenAddEditModal({isShown: true,data: noteDetails, type: "edit"})
+  }
   return (
     <>
       <Navbar userInfo={userInfo} />
       <div className="container mx-auto">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:-cols-4 gap-4 mt-8 max-md:m-5">
-          <NoteCard
-            title={"Wake Up at 6 a.m."}
-            date={"5th June, 2024"}
-            content={"You Know nothing , bro"}
-            tags={"#jonsnow"}
-            isPinned={true}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onPinNote={() => {}}
-          />
-          <NoteCard
-            title={"Wake Up at 6 a.m."}
-            date={"5th June, 2024"}
-            content={"You Know nothing , bro"}
-            tags={"#jonsnow"}
-            isPinned={true}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onPinNote={() => {}}
-          />
-          <NoteCard
-            title={"Wake Up at 6 a.m."}
-            date={"5th June, 2024"}
-            content={"You Know nothing , bro"}
-            tags={"#jonsnow"}
-            isPinned={true}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onPinNote={() => {}}
-          />
-          <NoteCard
-            title={"Wake Up at 6 a.m."}
-            date={"5th June, 2024"}
-            content={"You Know nothing , bro"}
-            tags={"#jonsnow"}
-            isPinned={true}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onPinNote={() => {}}
-          />
-          <NoteCard
-            title={"Wake Up at 6 a.m."}
-            date={"5th June, 2024"}
-            content={"You Know nothing , bro"}
-            tags={"#jonsnow"}
-            isPinned={true}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onPinNote={() => {}}
-          />
-          <NoteCard
-            title={"Wake Up at 6 a.m."}
-            date={"5th June, 2024"}
-            content={"You Know nothing , bro"}
-            tags={"#jonsnow"}
-            isPinned={true}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onPinNote={() => {}}
-          />
-          <NoteCard
-            title={"Wake Up at 6 a.m."}
-            date={"5th June, 2024"}
-            content={"You Know nothing , bro"}
-            tags={"#jonsnow"}
-            isPinned={false}
-            onEdit={() => {}}
-            onDelete={() => {}}
-            onPinNote={() => {}}
-          />
+          {allNotes.map((note, index) => (
+            <NoteCard
+            key={note._id}
+              title={note.title}
+              date={note.createdAt}
+              content={note.content}
+              tags={note.tags}
+              isPinned={note.isPinned}
+              onEdit={() => {handleEdit(note)}}
+              onDelete={() => {}}
+              onPinNote={() => {}}
+            />
+          ))}
         </div>
       </div>
       <button
@@ -130,6 +98,7 @@ const Home = () => {
           }
           noteData={openAddEditModal.data}
           type={openAddEditModal.type}
+          getAllNotes={getAllNotes}
         />
       </Modal>
     </>
