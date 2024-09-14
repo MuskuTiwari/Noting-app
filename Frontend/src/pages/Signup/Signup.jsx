@@ -3,8 +3,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Passwordinput from "../../components/input/Passwordinput";
 import { validateEmail } from "../../utils/helper";
+import axios from "axios"
 import Navbar from '../../components/Navbar';
-
+import {toast } from "react-toastify"
 
 
 const Signup = () =>{
@@ -38,12 +39,16 @@ const Signup = () =>{
 try {
   const res = await axios.post("http://localhost:3000/api/auth/signup ",{username: name,email,password},{withCredentials: true});
 if (res.data.success === false){
+
   setError(error.message
 )
+toast.error(res.data.message)
 return
 }
+toast.success(res.data.message)
   setError("")
 } catch (error) {
+  toast.error(error.message)
   console.log(error.message)
   setError(error.message)
   

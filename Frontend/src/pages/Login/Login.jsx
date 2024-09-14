@@ -4,13 +4,15 @@ import Passwordinput from "../../components/input/Passwordinput";
 import { Link, useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils/helper";
 import { useDispatch } from "react-redux";
+import axios from "axios";
+import {toast } from "react-toastify"
+
 
 import {
   signInFailure,
   signInStart,
   signInsuccess,
 } from "../../redux/userSlice/userSlice";
-import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -45,14 +47,16 @@ const Login = () => {
       );
 
       if (res.data.success === false) {
+        toast.error(res.data.message);
         console.log(res.data);
         dispatch(signInFailure(data.message));
       }
-
+toast.success(res.data.message)
       dispatch(signInsuccess(res.data));
       navigate("/");
     } catch (error) {
-      console.log(error);
+    
+      toast.error(res.message)
       dispatch(signInFailure(error.message));
     }
   };

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { MdClose } from 'react-icons/md';
 import TagInput from '../../components/input/TagInput';
 import axios from "axios"
+import {toast} from "react-toastify"
 
 const AddEditNotes=( {onclose, noteData, type, getAllNotes})=> {
     const [title, setTitle] = useState(noteData?.title || "")
@@ -12,9 +13,9 @@ const AddEditNotes=( {onclose, noteData, type, getAllNotes})=> {
 // edit note
 const editNote = async ()=>{
      
-  const noteId = async () =>{
+  const noteId = noteData._id
     try {
-      const res = await axios.put(
+      const res = await axios.post(
         "http://localhost:3000/api/note/edit/" + noteId,
         {title, content, tags},
         {withCredentials:true}
@@ -23,16 +24,18 @@ const editNote = async ()=>{
       if (res.data.success=== false){
         console.log(res.data.message)
         setError(res.data.message);
+        toast.error(res.data.message);
         return
       }
       getAllNotes()
       onclose()
     } catch (error) {
+      toast.error(error.message)
       console.log(error.message)
       setError(error.message)
     }
   }
-}
+
 //add note
 const addNewNote = async () =>{
        try {
@@ -44,8 +47,10 @@ const addNewNote = async () =>{
 if(res.data.success === false){
   console.log(res.data.message)
   setError(res.data.message)
+toast.error(res.data.message)
   return
 }
+toast.success(res.data.message)
 getAllNotes()
 onclose()
        } catch (error) {
