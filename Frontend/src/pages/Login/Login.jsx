@@ -5,8 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils/helper";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-import {toast } from "react-toastify"
-
+import { toast } from "react-toastify";
 
 import {
   signInFailure,
@@ -51,19 +50,18 @@ const Login = () => {
         console.log(res.data);
         dispatch(signInFailure(data.message));
       }
-toast.success(res.data.message)
+      toast.success(res.data.message);
       dispatch(signInsuccess(res.data));
       navigate("/");
     } catch (error) {
-    
-      toast.error(res.message)
+      toast.error(res.message);
       dispatch(signInFailure(error.message));
     }
   };
 
   return (
     <>
-      <div className="flex items-center justify-center mt-28">
+      <div className="container flex items-center justify-center h-screen">
         <div className="w-96 border rounded bg-white px-7 py-10">
           <form action="" onSubmit={handleLogin}>
             <h4 className="text-2xl mb-7 ">Login</h4>

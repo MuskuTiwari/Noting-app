@@ -3,11 +3,11 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 const SearchBar = ({ value, onChange, handleSearch, onClearSearch }) => {
   return (
-    <div className="w-40 sm:w-60 md:w-80 flex items-center px-4 bg-slate-100 rounded-md">
+    <div className="w-full flex items-center gap-2 md:px-4 px-2 bg-slate-100 rounded-md">
       <input
         type="text"
         placeholder="Search Notes....."
-        className="w-full text-s bg-transparent py-[13px] outline-none"
+        className="w-full text-s bg-transparent md:py-[13px] py-[8px] outline-none"
         value={value}
         onChange={onChange}
       />
@@ -16,7 +16,7 @@ const SearchBar = ({ value, onChange, handleSearch, onClearSearch }) => {
         onClick={onClearSearch} />
       )}
       <FaMagnifyingGlass
-        className="text-slate-500 text-xl cursor-pointer hover:text-black mr-3"
+        className="text-slate-500 text-xl cursor-pointer hover:text-black"
         onClick={handleSearch}
       />
     </div>

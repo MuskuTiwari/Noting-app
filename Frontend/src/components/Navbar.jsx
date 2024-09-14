@@ -6,12 +6,14 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios"; // Make sure Axios is imported
 import { toast } from "react-toastify";
+import { FiMenu } from "react-icons/fi";
 import {
   signInFailure,
   signInsuccess,
   signoutFailure,
   signoutStart,
 } from "../redux/userSlice/userSlice";
+import logo from "../public/img/logo.png";
 
 function Navbar({ userInfo, handleClearSearch, onSearchNote }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,7 +30,6 @@ function Navbar({ userInfo, handleClearSearch, onSearchNote }) {
     setSearchQuery("");
     handleClearSearch();
   };
-
   const OnLogout = async () => {
     try {
       dispatch(signoutStart());
@@ -53,22 +54,27 @@ function Navbar({ userInfo, handleClearSearch, onSearchNote }) {
 
   return (
     <>
-      <div className="bg-white flex items-center justify-between px-6 py-2 drop-shadow">
-        <Link to={"/"}>
-          <h2 className="text-xl font-medium text-black py-2">
-            <span className="text-slate-500">Notes</span>
-            <span className="text-slate-900">4you</span>
-          </h2>
-        </Link>
-
-        <SearchBar
-          value={searchQuery}
-          onChange={({ target }) => setSearchQuery(target.value)}
-          handleSearch={handleSearch}
-          onClearSearch={onClearSearch}
-        />
-
-        <ProfileInfo userInfo={userInfo} OnLogout={OnLogout} />
+      <div className="container mx-auto bg-[#9f9e9e] flex items-center justify-between fixed w-full z-50 md:px-6 px-2 py-4 drop-shadow md:gap-0 gap-1">
+        <div className="md:w-1/3 w-1/5 flex justify-center">
+          <Link to={"/"}>
+            <img
+              src={logo}
+              alt="logo"
+              className="lg:w-[40%] md:w-[60%] w-[100%]"
+            />
+          </Link>
+        </div>
+        <div className="md:w-1/3 w-2/5 ">
+          <SearchBar
+            value={searchQuery}
+            onChange={({ target }) => setSearchQuery(target.value)}
+            handleSearch={handleSearch}
+            onClearSearch={onClearSearch}
+          />
+        </div>
+        <div className="md:w-1/3 w-1/5">
+          <ProfileInfo userInfo={userInfo} OnLogout={OnLogout} />
+        </div>
       </div>
     </>
   );

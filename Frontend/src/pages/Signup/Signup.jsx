@@ -57,7 +57,7 @@ const Signup = () => {
 
   return (
     <>
-      <div className="flex items-center justify-center mt-28">
+      <div className="container mx-auto flex items-center justify-center h-screen">
         <div className="w-96 border rounded bg-white px-7 py-10">
           <form action="" onSubmit={handleSignUp}>
             <h4 className="text-2xl mb-7 ">Sign Up</h4>
