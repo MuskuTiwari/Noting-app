@@ -5,30 +5,28 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios"; // Make sure Axios is imported
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
 import {
-
   signInFailure,
   signInsuccess,
   signoutFailure,
   signoutStart,
 } from "../redux/userSlice/userSlice";
 
-function Navbar({ userInfo, handleClearSearch,onSearchNote }) {
+function Navbar({ userInfo, handleClearSearch, onSearchNote }) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSearch = () => {
-if(searchQuery){
-  onSearchNote(searchQuery)
-}
-
+    if (searchQuery) {
+      onSearchNote(searchQuery);
+    }
   };
   const onClearSearch = () => {
     setSearchQuery("");
-    handleClearSearch()
+    handleClearSearch();
   };
 
   const OnLogout = async () => {
@@ -41,14 +39,14 @@ if(searchQuery){
 
       if (res.data.success === false) {
         dispatch(signoutFailure(res.data.message));
-        toast.error(res.data.message)
+        toast.error(res.data.message);
         return;
       }
-toast.success(res.data.message)
-      dispatch(signInsuccess()); 
-      navigate("/login"); 
+      toast.success(res.data.message);
+      dispatch(signInsuccess());
+      navigate("/login");
     } catch (error) {
-toast.error(error.message)
+      toast.error(error.message);
       dispatch(signoutFailure(error.message));
     }
   };
